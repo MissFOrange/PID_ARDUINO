@@ -26,6 +26,22 @@ float e, e_prev = 0, inte, inte_prev = 0;
 }
 
 //***Motor Driver Functions*****
+void TurnMotorF(){
+  digitalWrite(In1, HIGH);
+   digitalWrite(In2, LOW);
+
+}
+
+void TurnOFF(){
+ digitalWrite(In1, LOW);
+ digitalWrite(In2, LOW);
+
+}
+void TurnMotorB(){
+  digitalWrite(In1, LOW);
+  digitalWrite(In2, HIGH);
+
+}
 
 void WriteDriverVoltage(float V, float Vmax) {
   int PWMval = int(255 * abs(V) / Vmax);
@@ -34,17 +50,14 @@ void WriteDriverVoltage(float V, float Vmax) {
   }
   if (V > 0) {
     //Move Forward
-    digitalWrite(In1, HIGH);
-    digitalWrite(In2, LOW);
+    TurnMotorF();
   }
   else if (V < 0) {
     //Move Backward
-    digitalWrite(In1, LOW);
-    digitalWrite(In2, HIGH);
+    TurnMotorB();
   }
   else {
-    digitalWrite(In1, LOW);
-    digitalWrite(In2, LOW);
+    TurnOFF();
   }
   analogWrite(EnA, PWMval);
 }
@@ -61,7 +74,7 @@ void setup() {
   digitalWrite(In2, LOW);
   analogWrite(EnA, 0);
  
-  attachInterrupt(digitalPinToInterrupt(EncoderA),countpulse,RISING);
+  attachInterrupt(digitalPinToInterrupt(encoderA),countpulse,RISING);
   Serial.begin(9600);
   
 }
